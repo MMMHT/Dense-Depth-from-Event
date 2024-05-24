@@ -1,0 +1,57 @@
+TOTAL_EPOCH: 500
+METHOD: MonoTrain
+DATASET:
+  TRAIN:
+    NAME: citysim
+    FOLDER: EventCitySim
+    PARAMS:
+      mode: train
+      crop_height: 240
+      crop_width: 320
+      max_disparity_pred: 36
+      events_num: 120000
+      max_interval: 20
+      use_pre_data: True
+  TEST:
+    NAME: citysim
+    FOLDER: EventCitySim
+    PARAMS:
+      mode: test
+      crop_height: 240
+      crop_width: 320
+      max_disparity_pred: 36
+      events_num: 120000
+      max_interval: 20
+      use_pre_data: True
+
+DATALOADER:
+  TRAIN:
+    NAME: get_multi_epochs_dataloader
+    PARAMS:
+      batch_size: 18
+      shuffle: True
+      drop_last: True
+  TEST:
+    NAME: get_multi_epochs_dataloader
+    PARAMS:
+      batch_size: 18
+      shuffle: False
+      drop_last: False
+MODEL:
+  NAME: EventmonocularNetwork
+  PARAMS:
+    in_channels: 36
+OPTIMIZER:
+  NAME: Adam
+  PARAMS:
+    lr: 0.0005
+    weight_decay: 0.0001
+    eps: 0.0001
+SCHEDULER:
+  NAME: CosineAnnealingWarmupRestarts
+  PARAMS:
+    cycle_mult: 1.0
+    first_cycle_steps: 100
+    gamma: 1.0
+    lr_ratio: 0.0001
+    warmup_steps: 3
